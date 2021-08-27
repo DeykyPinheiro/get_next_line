@@ -6,7 +6,7 @@
 /*   By: demikael <pinheiromikael96@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/24 19:43:45 by demikael          #+#    #+#             */
-/*   Updated: 2021/08/26 23:40:33 by demikael         ###   ########.fr       */
+/*   Updated: 2021/08/26 23:52:51 by demikael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ char	*get_next_line(int fd)
 	static char	*box;
 	char		*substring;
 	size_t		i;
-	static	size_t count;
-	if ()
+
 
 
 
