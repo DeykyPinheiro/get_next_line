@@ -6,7 +6,7 @@
 /*   By: demikael <pinheiromikael96@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 15:00:54 by demikael          #+#    #+#             */
-/*   Updated: 2021/08/24 15:31:12 by demikael         ###   ########.fr       */
+/*   Updated: 2021/08/27 01:01:28 by demikael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 void	*ft_calloc(size_t nmemb, size_t size);
 void	*ft_memset(void *s, int c, size_t n);
-
+void	*ft_memmove(void *dst,	const void *src, size_t	len);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
 #endif

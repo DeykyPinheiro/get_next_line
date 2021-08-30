@@ -6,7 +6,7 @@
 /*   By: demikael <pinheiromikael96@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/24 19:43:45 by demikael          #+#    #+#             */
-/*   Updated: 2021/08/26 23:52:51 by demikael         ###   ########.fr       */
+/*   Updated: 2021/08/30 20:29:30 by demikael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,27 @@
 #include <fcntl.h> //open
 #include <unistd.h> // read
 
+
 char	*get_next_line(int fd)
 {
 
-
-
-	char	*buffer;
+	char		*buffer;
 	size_t		BUFFER_SIZE;
 	static char	*box;
-	char		*substring;
-	size_t		i;
+	static size_t		i;
+	int			n;
+	static char	**aux;
+	char		*line;
+
+	BUFFER_SIZE = 300;
+
+	// if (box)
+	// {
+	// 	*aux = ft_strdup(&box[i + 1]);
 
 
+	// }
 
-
-	BUFFER_SIZE = 13;
 
 	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
@@ -38,24 +44,25 @@ char	*get_next_line(int fd)
 	read(fd, buffer, BUFFER_SIZE);
 
 	i = 0;
+	n = 0;
 	box = ft_strdup("");
+	line = ft_strdup("");
 	while(buffer[i] && buffer[i] != '\n')
 	{
 		i++;
 		if (i >= BUFFER_SIZE - 1  && (buffer[i] || buffer[i] != '\n'))
 		{
 			box = ft_strjoin(box, buffer);
-
 			read(fd, buffer, BUFFER_SIZE);
 			i = 0;
+			n ++;
 		}
 	}
-	substring = ft_substr(buffer, 0, i);
-	box = ft_strjoin(box, substring);
-	return (box);
+	box = ft_strjoin(box, buffer);
+	line = ft_substr(box, 0, i);
+	box = ft_strdup(&box[i + 1]);
+	return (line);
 }
-
-
 
 int	main(void)
 {
@@ -63,6 +70,8 @@ int	main(void)
 	int		fd;
 
 	fd = open("test.txt", O_RDONLY);
+	str = get_next_line(fd);
+	printf("%s", str);
 	str = get_next_line(fd);
 	printf("%s", str);
 	printf("\n== fim ==\n");

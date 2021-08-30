@@ -6,7 +6,7 @@
 /*   By: demikael <pinheiromikael96@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 15:01:20 by demikael          #+#    #+#             */
-/*   Updated: 2021/08/26 14:46:10 by demikael         ###   ########.fr       */
+/*   Updated: 2021/08/27 01:01:15 by demikael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,4 +142,40 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (0);
 	ft_strlcpy(substring, &s[start], len + 1);
 	return (substring);
+}
+void	*ft_memcpy(void *dest, const void *src, size_t n)
+{
+	unsigned char	*str1;
+	unsigned char	*str2;
+
+	str1 = (unsigned char *)dest;
+	str2 = (unsigned char *)src;
+	if ((!dest && !src) || !n)
+		return (dest);
+	while (n--)
+	{
+		*str1++ = *str2++;
+	}
+	return (dest);
+}
+
+void	*ft_memmove(void *dst,	const void *src, size_t	len)
+{
+	unsigned char	*str1;
+	unsigned char	*str2;
+
+	str2 = (unsigned char *)src;
+	str1 = (unsigned char *)dst;
+	if (dst > src)
+	{
+		while (len--)
+		{
+			str1[len] = str2[len];
+		}
+		return (dst);
+	}
+	else
+	{
+		return (ft_memcpy(dst, src, len));
+	}
 }
