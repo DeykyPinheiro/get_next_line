@@ -6,7 +6,7 @@
 /*   By: demikael <pinheiromikael96@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/24 19:43:45 by demikael          #+#    #+#             */
-/*   Updated: 2021/08/31 16:08:36 by demikael         ###   ########.fr       */
+/*   Updated: 2021/08/31 17:19:50 by demikael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,13 @@
 #include <fcntl.h> //open
 #include <unistd.h> // read
 
-
-
-static void free_ptr(char **str)
+static void	free_ptr(char **str)
 {
 	free(*str);
 	*str = NULL;
 }
 
-static char *extract_line(char **str)
+static char	*extract_line(char **str)
 {
 	char	*line;
 	size_t	i;
@@ -42,7 +40,6 @@ static char *extract_line(char **str)
 
 char	*get_next_line(int fd)
 {
-
 	char		*buffer;
 	static char	*box;
 	char		*aux;
@@ -50,14 +47,11 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-
 	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
-
 	if (!box)
 		box = ft_strdup("");
-
 	size = 1;
 	while (!ft_strchr(box, '\n') && size)
 		{
