@@ -6,7 +6,7 @@
 /*   By: demikael <pinheiromikael96@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 15:01:20 by demikael          #+#    #+#             */
-/*   Updated: 2021/08/27 01:01:15 by demikael         ###   ########.fr       */
+/*   Updated: 2021/08/31 13:51:20 by demikael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,20 +85,27 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	return (ft_strlen(src));
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char    *ft_strjoin(char const *s1, char const *s2)
 {
-	char	*str1;
-	size_t	size;
+    char    *str;
+    size_t    i;
+    size_t    j;
+    size_t    size;
 
-	if (!s1 || !s2)
-		return (NULL);
-	size = (ft_strlen(s1) + ft_strlen(s2) + 1);
-	str1 = (char *)ft_calloc(size, sizeof(char));
-	if (!str1)
-		return (0);
-	ft_strlcpy(str1, s1, (ft_strlen(s1) + 1));
-	ft_strlcat(str1, s2, size);
-	return (str1);
+    if (!s1 || !s2)
+        return (NULL);
+    size = ft_strlen(s1) + ft_strlen(s2) + 1;
+    str = (char *)malloc(sizeof(char) * size);
+    if (!str)
+        return (NULL);
+    i = -1;
+    while (s1[++i])
+        str[i] = s1[i];
+    j = -1;
+    while (s2[++j])
+        str[i + j] = s2[j];
+    str[i + j] = '\0';
+    return (str);
 }
 
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
@@ -178,4 +185,22 @@ void	*ft_memmove(void *dst,	const void *src, size_t	len)
 	{
 		return (ft_memcpy(dst, src, len));
 	}
+}
+
+char	*ft_strchr(const char *str, int c)
+{
+	unsigned char	*str1;
+	size_t			i;
+
+	str1 = (unsigned char *)str;
+	i = 0;
+	while (str1[i])
+	{
+		if (str1[i] == (unsigned char)c)
+			return ((char *)str1 + i);
+		i++;
+	}
+	if ((unsigned char)c == 0)
+		return ((char *)str1 + i);
+	return (0);
 }
