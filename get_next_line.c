@@ -6,7 +6,7 @@
 /*   By: demikael <pinheiromikael96@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/24 19:43:45 by demikael          #+#    #+#             */
-/*   Updated: 2021/08/31 15:15:10 by demikael         ###   ########.fr       */
+/*   Updated: 2021/08/31 16:08:36 by demikael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,7 @@ static char *extract_line(char **str)
 
 	i = 0;
 	while ((*str)[i] && (*str)[i] != '\n')
-	{
 		i++;
-	}
 	aux = *str;
 	line = ft_substr(aux, 0, i + 1);
 	*str = ft_strdup(aux + i + 1);
@@ -48,37 +46,41 @@ char	*get_next_line(int fd)
 	char		*buffer;
 	static char	*box;
 	char		*aux;
-	size_t		size;
+	ssize_t		size;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-
-	if (!box)
-		box = ft_strdup("");
 
 	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
 
-	size = 1;
-	if (!ft_strchr(box, '\n'))
-	{
+	if (!box)
+		box = ft_strdup("");
 
-		while (!ft_strchr(box, '\n') && size)
-			{
-				size = read(fd, buffer, BUFFER_SIZE);
-				buffer[size] = '\0';
-				aux = box;
-				box = ft_strjoin(aux, buffer);
-				free_ptr(&aux);
-			}
-	}
+	size = 1;
+	while (!ft_strchr(box, '\n') && size)
+		{
+			size = read(fd, buffer, BUFFER_SIZE);
+			if (size <= 0)
+				break;
+			buffer[size] = '\0';
+			aux = box;
+			box = ft_strjoin(aux, buffer);
+			free_ptr(&aux);
+		}
 	free_ptr(&buffer);
-	if (!ft_strchr(box, '\n') && box[0] == '\0')
-	{
-		free_ptr (&box);
-		return (NULL);
-	}
+	if (size <= 0 && *box == '\0')
+		{
+			free_ptr(&box);
+			return NULL;
+		}
+	if (!ft_strchr(box, '\n') && *box)
+		{
+			aux = ft_strdup(box);
+			free_ptr(&box);
+			return (aux);
+		}
 	if (ft_strchr(box, '\n'))
 		return (extract_line(&box));
 	return (NULL);
@@ -92,7 +94,7 @@ char	*get_next_line(int fd)
 // 	fd = open("test.txt", O_RDONLY);
 // 	while(1)
 // 	{
-// 		str = get_next_line(fd);
+// 		str = get_next_line(1000);
 // 		if (!str)
 // 			break ;
 // 		printf("%s", str);
