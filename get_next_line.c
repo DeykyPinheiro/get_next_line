@@ -6,7 +6,7 @@
 /*   By: demikael <pinheiromikael96@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/24 19:43:45 by demikael          #+#    #+#             */
-/*   Updated: 2021/09/01 19:38:06 by demikael         ###   ########.fr       */
+/*   Updated: 2021/09/01 20:26:21 by demikael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,12 @@ char	*get_next_line(int fd)
 		return (NULL);
 	if (!box[fd])
 		box[fd] = ft_strdup("");
+
+
+
+
 	size = 1;
-	while (!ft_strchr(box[fd], '\n') && size)
+	while (!ft_strchr(box[fd], '\n') && size) //make line
 		{
 			size = read(fd, buffer, BUFFER_SIZE);
 			if (size <= 0)
@@ -63,13 +67,16 @@ char	*get_next_line(int fd)
 			box[fd] = ft_strjoin(aux, buffer);
 			free_ptr(&aux);
 		}
+
+
+
 	free_ptr(&buffer);
-	if (size <= 0 && *box[fd] == '\0')
+	if (size <= 0 && *box[fd] == '\0') // verifica size
 		{
 			free_ptr(&box[fd]);
 			return NULL;
 		}
-	if (!ft_strchr(box[fd], '\n') && *box[fd])
+	if (!ft_strchr(box[fd], '\n') && *box[fd]) //ultima linha sem \n
 		{
 			aux = ft_strdup(box[fd]);
 			free_ptr(&box[fd]);
@@ -96,5 +103,19 @@ char	*get_next_line(int fd)
 // 	}
 // 	return (0);
 // }
+
+
+
+	// size = 1;
+	// while (!ft_strchr(box[fd], '\n') && size) //make line
+	// 	{
+	// 		size = read(fd, buffer, BUFFER_SIZE);
+	// 		if (size <= 0)
+	// 			break;
+	// 		buffer[size] = '\0';
+	// 		aux = box[fd];
+	// 		box[fd] = ft_strjoin(aux, buffer);
+	// 		free_ptr(&aux);
+	// 	}
 
 
