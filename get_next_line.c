@@ -6,7 +6,7 @@
 /*   By: demikael <pinheiromikael96@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/24 19:43:45 by demikael          #+#    #+#             */
-/*   Updated: 2021/08/31 17:19:50 by demikael         ###   ########.fr       */
+/*   Updated: 2021/09/01 19:38:06 by demikael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,42 +41,42 @@ static char	*extract_line(char **str)
 char	*get_next_line(int fd)
 {
 	char		*buffer;
-	static char	*box;
+	static char	*box[OPEN_MAX + 1];
 	char		*aux;
 	ssize_t		size;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd > OPEN_MAX)
 		return (NULL);
 	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
-	if (!box)
-		box = ft_strdup("");
+	if (!box[fd])
+		box[fd] = ft_strdup("");
 	size = 1;
-	while (!ft_strchr(box, '\n') && size)
+	while (!ft_strchr(box[fd], '\n') && size)
 		{
 			size = read(fd, buffer, BUFFER_SIZE);
 			if (size <= 0)
 				break;
 			buffer[size] = '\0';
-			aux = box;
-			box = ft_strjoin(aux, buffer);
+			aux = box[fd];
+			box[fd] = ft_strjoin(aux, buffer);
 			free_ptr(&aux);
 		}
 	free_ptr(&buffer);
-	if (size <= 0 && *box == '\0')
+	if (size <= 0 && *box[fd] == '\0')
 		{
-			free_ptr(&box);
+			free_ptr(&box[fd]);
 			return NULL;
 		}
-	if (!ft_strchr(box, '\n') && *box)
+	if (!ft_strchr(box[fd], '\n') && *box[fd])
 		{
-			aux = ft_strdup(box);
-			free_ptr(&box);
+			aux = ft_strdup(box[fd]);
+			free_ptr(&box[fd]);
 			return (aux);
 		}
-	if (ft_strchr(box, '\n'))
-		return (extract_line(&box));
+	if (ft_strchr(box[fd], '\n'))
+		return (extract_line(&box[fd]));
 	return (NULL);
 }
 
@@ -88,7 +88,7 @@ char	*get_next_line(int fd)
 // 	fd = open("test.txt", O_RDONLY);
 // 	while(1)
 // 	{
-// 		str = get_next_line(1000);
+// 		str = get_next_line(fd);
 // 		if (!str)
 // 			break ;
 // 		printf("%s", str);
