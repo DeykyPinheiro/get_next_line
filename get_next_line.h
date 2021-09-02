@@ -6,7 +6,7 @@
 /*   By: demikael <pinheiromikael96@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/20 15:00:54 by demikael          #+#    #+#             */
-/*   Updated: 2021/09/01 18:11:35 by demikael         ###   ########.fr       */
+/*   Updated: 2021/09/02 19:59:40 by demikael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
+#  define BUFFER_SIZE 42
 # endif
 
 # ifndef OPEN_MAX
-# define OPEN_MAX 256
+#  define OPEN_MAX 256
 # endif
 
 # include "get_next_line.h"

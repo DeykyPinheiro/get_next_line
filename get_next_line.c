@@ -6,15 +6,15 @@
 /*   By: demikael <pinheiromikael96@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/24 19:43:45 by demikael          #+#    #+#             */
-/*   Updated: 2021/09/02 16:38:05 by demikael         ###   ########.fr       */
+/*   Updated: 2021/09/02 20:00:08 by demikael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-#include <stdio.h> // printf
+#include "get_next_line_bonus.h"
 #include <stdlib.h> // free
-#include <fcntl.h> //open
 #include <unistd.h> // read
+// #include <stdio.h> // printf
+// #include <fcntl.h> //open
 
 static void	free_ptr(char **str)
 {
