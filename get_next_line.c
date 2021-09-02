@@ -6,7 +6,7 @@
 /*   By: demikael <pinheiromikael96@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/24 19:43:45 by demikael          #+#    #+#             */
-/*   Updated: 2021/09/01 20:26:21 by demikael         ###   ########.fr       */
+/*   Updated: 2021/09/02 15:37:17 by demikael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,41 @@ static char	*extract_line(char **str)
 	return (line);
 }
 
+char	*hold_text(int fd, char *buffer, char *box, int *size)
+{
+	char	*aux;
+
+	while (!ft_strchr(box, '\n') && *size)
+	{
+		*size = read(fd, buffer, BUFFER_SIZE);
+		if (*size <= 0)
+			break ;
+		buffer[*size] = '\0';
+		aux = box;
+		box = ft_strjoin(aux, buffer);
+		free_ptr(&aux);
+	}
+	free_ptr(&buffer);
+	return (box);
+}
+
+char	*extract_last_line(char *box, char *aux)
+{
+	if (!ft_strchr(box, '\n') && *box)
+	{
+		aux = ft_strdup(box);
+		free_ptr(&box);
+		return (aux);
+	}
+	return (NULL);
+}
+
 char	*get_next_line(int fd)
 {
 	char		*buffer;
 	static char	*box[OPEN_MAX + 1];
 	char		*aux;
-	ssize_t		size;
+	int			size;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || fd > OPEN_MAX)
 		return (NULL);
@@ -52,36 +81,14 @@ char	*get_next_line(int fd)
 		return (NULL);
 	if (!box[fd])
 		box[fd] = ft_strdup("");
-
-
-
-
 	size = 1;
-	while (!ft_strchr(box[fd], '\n') && size) //make line
-		{
-			size = read(fd, buffer, BUFFER_SIZE);
-			if (size <= 0)
-				break;
-			buffer[size] = '\0';
-			aux = box[fd];
-			box[fd] = ft_strjoin(aux, buffer);
-			free_ptr(&aux);
-		}
-
-
-
-	free_ptr(&buffer);
-	if (size <= 0 && *box[fd] == '\0') // verifica size
-		{
-			free_ptr(&box[fd]);
-			return NULL;
-		}
-	if (!ft_strchr(box[fd], '\n') && *box[fd]) //ultima linha sem \n
-		{
-			aux = ft_strdup(box[fd]);
-			free_ptr(&box[fd]);
-			return (aux);
-		}
+	box[fd] = hold_text(fd, buffer, box[fd], &size);
+	if (size <= 0 && *box[fd] == '\0')
+	{
+		free_ptr(&box[fd]);
+		return (NULL);
+	}
+	extract_last_line(box[fd], aux);
 	if (ft_strchr(box[fd], '\n'))
 		return (extract_line(&box[fd]));
 	return (NULL);
@@ -103,19 +110,3 @@ char	*get_next_line(int fd)
 // 	}
 // 	return (0);
 // }
-
-
-
-	// size = 1;
-	// while (!ft_strchr(box[fd], '\n') && size) //make line
-	// 	{
-	// 		size = read(fd, buffer, BUFFER_SIZE);
-	// 		if (size <= 0)
-	// 			break;
-	// 		buffer[size] = '\0';
-	// 		aux = box[fd];
-	// 		box[fd] = ft_strjoin(aux, buffer);
-	// 		free_ptr(&aux);
-	// 	}
-
-
