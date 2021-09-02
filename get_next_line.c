@@ -6,7 +6,7 @@
 /*   By: demikael <pinheiromikael96@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/24 19:43:45 by demikael          #+#    #+#             */
-/*   Updated: 2021/09/02 16:31:23 by demikael         ###   ########.fr       */
+/*   Updated: 2021/09/02 16:38:05 by demikael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static char	*extract_last_line(char **box)
 char	*get_next_line(int fd)
 {
 	char		*buffer;
-	static char	*box[OPEN_MAX + 1];
+	static char	*box[OPEN_MAX];
 	int			size;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || fd > OPEN_MAX)
