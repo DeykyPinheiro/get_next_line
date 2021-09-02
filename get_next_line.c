@@ -6,7 +6,7 @@
 /*   By: demikael <pinheiromikael96@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/24 19:43:45 by demikael          #+#    #+#             */
-/*   Updated: 2021/09/02 15:37:17 by demikael         ###   ########.fr       */
+/*   Updated: 2021/09/02 16:31:23 by demikael         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,14 @@ char	*hold_text(int fd, char *buffer, char *box, int *size)
 	return (box);
 }
 
-char	*extract_last_line(char *box, char *aux)
+static char	*extract_last_line(char **box)
 {
-	if (!ft_strchr(box, '\n') && *box)
+	char	*aux;
+
+	if (!ft_strchr(*box, '\n') && **box)
 	{
-		aux = ft_strdup(box);
-		free_ptr(&box);
+		aux = ft_strdup(*box);
+		free_ptr(box);
 		return (aux);
 	}
 	return (NULL);
@@ -71,7 +73,6 @@ char	*get_next_line(int fd)
 {
 	char		*buffer;
 	static char	*box[OPEN_MAX + 1];
-	char		*aux;
 	int			size;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || fd > OPEN_MAX)
@@ -88,10 +89,9 @@ char	*get_next_line(int fd)
 		free_ptr(&box[fd]);
 		return (NULL);
 	}
-	extract_last_line(box[fd], aux);
 	if (ft_strchr(box[fd], '\n'))
 		return (extract_line(&box[fd]));
-	return (NULL);
+	return (extract_last_line(&box[fd]));
 }
 
 // int main(void)
